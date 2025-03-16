@@ -22,6 +22,14 @@
                 <option value="rejected">Rejected</option>
             </select>
             <button onclick="filterUsers()" class="bg-blue-500 text-white px-4 py-2 rounded shadow-md hover:bg-blue-600 transition">Search</button>
+            <a href="#" onclick="document.getElementById('logout-form').submit();"
+   class="bg-red-500 text-white px-4 py-2 rounded shadow-md hover:bg-red-600 transition">
+   Logout
+</a>
+
+<form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+    @csrf
+</form>
         </div>
 
         <!-- Users Table -->

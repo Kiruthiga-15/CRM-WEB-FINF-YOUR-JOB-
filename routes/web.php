@@ -40,9 +40,8 @@ Route::post('/user/details', [UserDetailsController::class, 'store'])->name('use
 Route::post('register', [UserController::class, 'store'])->name('register.store');
 
 // Logout Route for Admin
-Route::post('/logout', function () {
-    Auth::logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-    return redirect('/admin/login');
-})->name('logout');
+Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+// Admin Login Route
+Route::get('/admin/login', function () {
+    return view('admin.login'); // Ensure this view exists in resources/views/admin/login.blade.php
+})->name('admin.login');
