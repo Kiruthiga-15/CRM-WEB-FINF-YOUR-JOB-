@@ -1,6 +1,5 @@
 {{-- //register.blade.php  --}}
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,9 +32,9 @@
     </script>
 </head>
 
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-r from-primary to-secondary text-white font-sans">
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-r from-primary to-secondary text-white font-sans px-4 sm:px-6 lg:px-8">
 
-    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-gray-900 transition-all duration-300 hover:shadow-2xl">
+    <div class="bg-white p-6 sm:p-8 md:p-10 rounded-xl shadow-lg w-full max-w-lg text-gray-900 transition-all duration-300 hover:shadow-2xl">
         
         <!-- Success Message -->
         @if (session('success'))
@@ -64,7 +63,7 @@
             <div>
                 <label class="block font-semibold">Full Name</label>
                 <input type="text" name="name" required 
-                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:border-secondary hover:shadow-md"
+                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:border-secondary hover:shadow-md text-gray-900"
                     placeholder="Enter your full name">
             </div>
 
@@ -72,7 +71,7 @@
             <div>
                 <label class="block font-semibold">Email Address</label>
                 <input type="email" name="email" required 
-                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:border-secondary hover:shadow-md"
+                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:border-secondary hover:shadow-md text-gray-900"
                     placeholder="Enter your email">
             </div>
 
@@ -80,7 +79,7 @@
             <div>
                 <label class="block font-semibold">Phone Number</label>
                 <input type="tel" name="phone" required 
-                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:border-secondary hover:shadow-md"
+                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:border-secondary hover:shadow-md text-gray-900"
                     placeholder="Enter your phone number">
             </div>
 
@@ -88,7 +87,7 @@
             <div>
                 <label class="block font-semibold">Upload ID Proof</label>
                 <input type="file" name="id_proof" accept=".jpg, .png, .pdf" required 
-                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary file:bg-primary file:text-white file:px-4 file:py-2 file:border-none file:rounded-lg file:cursor-pointer transition-all duration-300 hover:border-secondary hover:shadow-md">
+                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary file:bg-primary file:text-white file:px-4 file:py-2 file:border-none file:rounded-lg file:cursor-pointer transition-all duration-300 hover:border-secondary hover:shadow-md text-gray-900">
                 <p class="text-xs text-gray-500 mt-1">Accepted formats: JPG, PNG, PDF</p>
             </div>
 
@@ -96,7 +95,7 @@
             <div>
                 <label class="block font-semibold">Upload Address Proof</label>
                 <input type="file" name="address_proof" accept=".jpg, .png, .pdf" required 
-                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary file:bg-primary file:text-white file:px-4 file:py-2 file:border-none file:rounded-lg file:cursor-pointer transition-all duration-300 hover:border-secondary hover:shadow-md">
+                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary file:bg-primary file:text-white file:px-4 file:py-2 file:border-none file:rounded-lg file:cursor-pointer transition-all duration-300 hover:border-secondary hover:shadow-md text-gray-900">
                 <p class="text-xs text-gray-500 mt-1">Accepted formats: JPG, PNG, PDF</p>
             </div>
 

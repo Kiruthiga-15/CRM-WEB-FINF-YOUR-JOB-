@@ -18,7 +18,7 @@ class RegisterController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:email',
             'id_proof' => 'required|file|mimes:jpg,png,pdf|max:2048', // Adjust file types and size
             'address_proof' => 'required|file|mimes:jpg,png,pdf|max:2048',
         ]);
@@ -44,8 +44,8 @@ return redirect()->route('admin.dashboard')->with('success', 'Registration succe
         // Validate input fields
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'phone' => 'required|string|max:15',
+            'email' => 'required|email|unique:email',
+            'phone' => 'required|digits:10|numeric', // Ensures exactly 10 digits
             'id_proof' => 'required|mimes:jpg,png,pdf|max:2048',
             'address_proof' => 'required|mimes:jpg,png,pdf|max:2048',
             'password' => 'required|min:6|confirmed',

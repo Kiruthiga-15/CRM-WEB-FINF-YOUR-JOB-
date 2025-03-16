@@ -29,9 +29,9 @@
     </style>
 </head>
 
-<body class="bg-gradient-to-br from-gray-200 to-gray-400 flex items-center justify-center min-h-screen">
+<body class="bg-gradient-to-br from-gray-200 to-gray-400 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
 
-    <div class="max-w-md w-full bg-white p-8 rounded-2xl shadow-2xl transition-transform transform hover:scale-105 duration-300">
+    <div class="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-md bg-white p-8 sm:p-10 rounded-2xl shadow-2xl transition-transform transform hover:scale-105 duration-300">
         <h2 class="text-3xl font-extrabold text-dark text-center mb-6">Admin Login</h2>
 
         <!-- Error Message -->
@@ -52,7 +52,7 @@
                 <label class="block text-gray-700 font-medium mb-1">Password</label>
                 <input type="password" id="password" name="password" required 
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary transition duration-200 hover:border-primary">
-                <button type="button" id="togglePassword" class="absolute right-4 top-10 text-gray-500 hover:text-gray-800 transition">
+                <button type="button" id="togglePassword" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-800 transition">
                     🔍
                 </button>
             </div>
