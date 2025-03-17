@@ -6,6 +6,7 @@
     <title>User Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-gradient-to-r from-blue-50 to-purple-100 p-4 md:p-6">
     <div class="container mx-auto p-4 bg-white shadow-lg rounded-lg w-full max-w-6xl">
@@ -39,8 +40,6 @@
                         <th class="border p-2">ID</th>
                         <th class="border p-2">Name</th>
                         <th class="border p-2">Email</th>
-                        <th class="border p-2">ID Proof</th>
-                        <th class="border p-2">Address Proof</th>
                         <th class="border p-2">Status</th>
                         <th class="border p-2">Actions</th>
                     </tr>
@@ -51,29 +50,19 @@
                         <td class="border p-2">{{ $loop->iteration }}</td>
                         <td class="border p-2">{{ $user->name }}</td>
                         <td class="border p-2">{{ $user->email }}</td>
-                        <td class="border p-2 text-center">
-                            @if($user->id_proof)
-                                <a href="{{ asset('storage/' . $user->id_proof) }}" target="_blank" class="text-blue-500 underline hover:text-blue-700">View</a>
-                            @else
-                                <span class="text-red-500">Not Uploaded</span>
-                            @endif
-                        </td>
-                        <td class="border p-2 text-center">
-                            @if($user->address_proof)
-                                <a href="{{ asset('storage/' . $user->address_proof) }}" target="_blank" class="text-blue-500 underline hover:text-blue-700">View</a>
-                            @else
-                                <span class="text-red-500">Not Uploaded</span>
-                            @endif
-                        </td>
                         <td class="border p-2 font-semibold text-center">
                             <span class="status px-2 py-1 rounded-lg text-white text-xs md:text-sm
                                 @if($user->status == 'approved') bg-green-500 @elseif($user->status == 'pending') bg-yellow-500 @else bg-red-500 @endif">
                                 {{ ucfirst($user->status) }}
                             </span>
                         </td>
-                        <td class="border p-2 text-center flex flex-col md:flex-row gap-2 justify-center">
-                            <button class="bg-green-500 text-white px-3 py-1 rounded shadow-md hover:bg-green-600 transition text-xs md:text-sm approve-btn" data-id="{{ $user->id }}">Approve</button>
-                            <button class="bg-red-500 text-white px-3 py-1 rounded shadow-md hover:bg-red-600 transition text-xs md:text-sm reject-btn" data-id="{{ $user->id }}">Reject</button>
+                        <td class="border p-2 text-center">
+                            <button class="bg-blue-500 text-white px-3 py-1 rounded shadow-md hover:bg-blue-600 transition text-xs md:text-sm view-proof-btn" 
+                                data-id="{{ $user->id }}"
+                                data-id-proof="{{ $user->id_proof ? asset('storage/' . $user->id_proof) : '' }}"
+                                data-address-proof="{{ $user->address_proof ? asset('storage/' . $user->address_proof) : '' }}">
+                                View Proof
+                            </button>
                         </td>
                     </tr>
                     @endforeach
@@ -82,55 +71,73 @@
         </div>
     </div>
 
+    <!-- Modal Popup -->
+    <div id="proofModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full relative">
+            <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
+
+            <h3 class="text-xl font-bold mb-4">User Proof Details</h3>
+
+            <div id="proofContent">
+                <!-- ID Proof -->
+                <p class="font-semibold text-gray-700">ID Proof:</p>
+                <img id="idProofImg" src="" class="w-32 h-32 object-cover mx-auto my-2 hidden">
+                <p id="noIdProof" class="text-red-500 text-sm hidden">Not Uploaded</p>
+
+                <!-- Address Proof -->
+                <p class="font-semibold text-gray-700 mt-4">Address Proof:</p>
+                <img id="addressProofImg" src="" class="w-32 h-32 object-cover mx-auto my-2 hidden">
+                <p id="noAddressProof" class="text-red-500 text-sm hidden">Not Uploaded</p>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function filterUsers() {
-            let email = document.getElementById("emailSearch").value.toLowerCase();
-            let status = document.getElementById("statusFilter").value.toLowerCase();
-            let rows = document.querySelectorAll("#userTable tr");
-            rows.forEach(row => {
-                let emailText = row.cells[2].innerText.toLowerCase();
-                let statusText = row.cells[5].innerText.toLowerCase();
-                row.style.display = (email === "" || emailText.includes(email)) && (status === "" || statusText === status) ? "" : "none";
-            });
-        }
-
         document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll(".approve-btn").forEach(button => {
+            const proofModal = document.getElementById("proofModal");
+            const closeModal = document.getElementById("closeModal");
+
+            document.querySelectorAll(".view-proof-btn").forEach(button => {
                 button.addEventListener("click", function() {
-                    let userId = this.dataset.id;
-                    updateStatus(userId, "approved");
+                    let idProof = this.dataset.idProof;
+                    let addressProof = this.dataset.addressProof;
+
+                    // Set ID Proof
+                    if (idProof) {
+                        document.getElementById("idProofImg").src = idProof;
+                        document.getElementById("idProofImg").classList.remove("hidden");
+                        document.getElementById("noIdProof").classList.add("hidden");
+                    } else {
+                        document.getElementById("idProofImg").classList.add("hidden");
+                        document.getElementById("noIdProof").classList.remove("hidden");
+                    }
+
+                    // Set Address Proof
+                    if (addressProof) {
+                        document.getElementById("addressProofImg").src = addressProof;
+                        document.getElementById("addressProofImg").classList.remove("hidden");
+                        document.getElementById("noAddressProof").classList.add("hidden");
+                    } else {
+                        document.getElementById("addressProofImg").classList.add("hidden");
+                        document.getElementById("noAddressProof").classList.remove("hidden");
+                    }
+
+                    // Show Modal
+                    proofModal.classList.remove("hidden");
                 });
             });
 
-            document.querySelectorAll(".reject-btn").forEach(button => {
-                button.addEventListener("click", function() {
-                    let userId = this.dataset.id;
-                    updateStatus(userId, "rejected");
-                });
+            // Close Modal
+            closeModal.addEventListener("click", function() {
+                proofModal.classList.add("hidden");
+            });
+
+            proofModal.addEventListener("click", function(event) {
+                if (event.target === proofModal) {
+                    proofModal.classList.add("hidden");
+                }
             });
         });
-
-        function updateStatus(userId, status) {
-            fetch(`/admin/users/${userId}/update-status`, {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ status: status }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(`User status updated to ${status}`);
-                    let row = document.querySelector(`button[data-id='${userId}']`).closest("tr");
-                    let statusCell = row.querySelector(".status");
-                    statusCell.textContent = status.charAt(0).toUpperCase() + status.slice(1);
-                    statusCell.className = `status px-2 py-1 rounded-lg text-white ${status === 'approved' ? 'bg-green-500' : 'bg-red-500'}`;
-                }
-            })
-            .catch(error => console.error("Error:", error));
-        }
     </script>
 </body>
 </html>

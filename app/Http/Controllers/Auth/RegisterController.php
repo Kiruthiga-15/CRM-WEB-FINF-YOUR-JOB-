@@ -74,5 +74,6 @@ return redirect()->route('admin.dashboard')->with('success', 'Registration succe
  return redirect()->route('admin.dashboard')->with('success', 'Registration successful!');
 
     }
+    
 }
 

@@ -25,12 +25,17 @@ Route::middleware(['auth:admin'])->group(function () {
 
     // AJAX Status Update Route
     Route::post('/admin/users/{id}/update-status', [AdminController::class, 'updateStatus'])->name('admin.users.update-status');
+
+    // **NEW** Proof Status Update Route
+  Route::post('/users/update-proof-status', [UserController::class, 'updateProofStatus'])->name('users.update-proof-status');
+
 });
 
 // Registration Routes
 Route::get('/user/register', [RegisterController::class, 'showRegistrationForm'])->name('user.register');
 Route::post('/user/register', [RegisterController::class, 'register'])->name('user.register.post');
-//reupload 
+
+// Reupload Proof Route
 Route::post('/user/reupload-proof', [UserController::class, 'updateProofs'])->name('user.reupload.proof');
 
 // Store user details
@@ -39,8 +44,6 @@ Route::post('/user/details', [UserDetailsController::class, 'store'])->name('use
 // Store all register values
 Route::post('register', [UserController::class, 'store'])->name('register.store');
 
-// Logout Route for Admin
-Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 // Admin Login Route
 Route::get('/admin/login', function () {
     return view('admin.login'); // Ensure this view exists in resources/views/admin/login.blade.php

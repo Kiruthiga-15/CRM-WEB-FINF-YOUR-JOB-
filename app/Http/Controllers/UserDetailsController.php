@@ -32,9 +32,5 @@ class UserDetailsController extends Controller
 
         return redirect()->back()->with('success', 'Registration successful!');
     }
-     public function index()
-    {
-        $users = UserDetails::all(); // Fetch all registered users
-        return view('admin.users', compact('users'));
-    }
+
 }
