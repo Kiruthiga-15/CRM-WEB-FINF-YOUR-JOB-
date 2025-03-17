@@ -8,6 +8,23 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    
+public function updateProofStatus(Request $request, $id)
+{
+    $user = User::findOrFail($id);
+
+    if ($request->proofType == 'id_proof') {
+        $user->id_proof_status = $request->status;
+    } elseif ($request->proofType == 'address_proof') {
+        $user->address_proof_status = $request->status;
+    }
+
+    $user->save();
+
+    return response()->json(['success' => true, 'message' => 'Proof status updated successfully']);
+}
+
+
     public function showRegistrationForm()
     {
         return view('user.register');
@@ -71,24 +88,6 @@ class UserController extends Controller
     // Redirect back with success message
     return redirect()->route('user.register')->with('success', 'Registration successful!');
 }
-public function updateProofStatus(Request $request)
-{
-    $request->validate([
-        'user_id' => 'required|exists:users,id',
-        'proof_type' => 'required|in:id_proof,address_proof',
-        'status' => 'required|in:approved,rejected'
-    ]);
-
-    $user = User::findOrFail($request->user_id);
-    $proofType = $request->proof_type;
-
-    // Update proof status
-    $user->{$proofType . '_status'} = $request->status;
-    $user->save();
-
-    return response()->json(['success' => true, 'message' => 'Status updated successfully!']);
-}
-
 
 
 
