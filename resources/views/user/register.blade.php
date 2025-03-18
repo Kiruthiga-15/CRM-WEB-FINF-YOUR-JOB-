@@ -57,7 +57,7 @@
         <!-- Registration Form -->
         <h2 class="text-3xl font-bold text-center text-primary mb-6">User Registration</h2>
 
-        <form action="{{ route('register.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        <form action="{{ route('user.register.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
             <!-- Name -->
             <div>
@@ -82,6 +82,22 @@
                     class="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:border-secondary hover:shadow-md text-gray-900"
                     placeholder="Enter your phone number">
             </div>
+            <!-- Password -->
+<div>
+    <label class="block font-semibold">Password</label>
+    <input type="password" name="password" required 
+        class="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:border-secondary hover:shadow-md text-gray-900"
+        placeholder="Enter your password">
+</div>
+
+<!-- Confirm Password -->
+<div>
+    <label class="block font-semibold">Confirm Password</label>
+    <input type="password" name="password_confirmation" required 
+        class="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:border-secondary hover:shadow-md text-gray-900"
+        placeholder="Confirm your password">
+</div>
+
 
             <!-- ID Proof Upload -->
             <div>

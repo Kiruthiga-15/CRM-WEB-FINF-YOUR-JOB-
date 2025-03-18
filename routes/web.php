@@ -8,6 +8,7 @@ use App\Http\Controllers\UserDetailsController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 
+
 // Welcome Page
 Route::get('/', function () {
     return view('welcome'); // or redirect('/login');
@@ -35,6 +36,9 @@ Route::post('/user/reupload-proof', [UserController::class, 'updateProofs'])->na
 
 // Store user details
 Route::post('/user/details', [UserDetailsController::class, 'store'])->name('user.details.store');
+Route::post('/register', [UserDetailsController::class, 'store'])->name('user.register.submit');
+Route::get('/admin/users', [UserDetailsController::class, 'showUsers'])->name('admin.userlist');
+
 
 // Store all register values
 Route::post('register', [UserController::class, 'store'])->name('register.store');
@@ -47,4 +51,28 @@ Route::get('/admin/login', function () {
 })->name('admin.login');
 
 
-Route::post('/admin/users/{id}/update-proof-status', [UserController::class, 'updateProofStatus'])->name('users.update-proof-status');
+///popup 
+Route::post('/users/update-proof-status', [UserController::class, 'updateProofStatus'])->name('users.update-proof-status');
+
+//reupload
+Route::post('/users/reupload-proof', [UserController::class, 'reuploadProof'])->name('users.reupload-proof');
+
+
+///user login
+
+
+
+
+// Register Routes
+
+
+Route::get('/user/register', function () {
+    return view('user.register');
+})->name('user.register');
+
+Route::post('/user/register', [UserDetailsController::class, 'store'])->name('user.register.store');
+
+Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
+Route::post('/admin/users/store', [UserController::class, 'store'])->name('admin.users.store');
+
+
