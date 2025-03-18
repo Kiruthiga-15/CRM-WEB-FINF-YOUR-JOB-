@@ -37,7 +37,8 @@
         <!-- Error Message -->
         <div id="error-message" class="hidden bg-red-500 text-white p-3 rounded-lg mb-4 text-center shadow-md"></div>
 
-        <form id="login-form" action="{{ route('admin.login') }}" method="POST">
+        <form id="login-form" action="{{ route('admin.login.post') }}" method="POST">
+
             @csrf
 
             <!-- Email Input -->
