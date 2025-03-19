@@ -164,6 +164,41 @@ public function updateProofStatus(Request $request) {
         $users = User::latest()->get();
         return view('admin.user', compact('users'));
     }
+//delete and deactivate 
+// public function deactivate(Request $request) {
+//     $user = User::find($request->user_id);
+//     if ($user) {
+//         $user->status = 'deactivated';
+//         $user->save();
+//         return response()->json(['message' => 'User deactivated successfully.']);
+//     }
+//     return response()->json(['message' => 'User not found.'], 404);
+// }
+
+// public function delete(Request $request) {
+//     $user = User::find($request->user_id);
+//     if ($user) {
+//         $user->delete();
+//         return response()->json(['message' => 'User deleted successfully.']);
+//     }
+//     return response()->json(['message' => 'User not found.'], 404);
+// }
+public function deactivate($id)
+{
+    $user = User::findOrFail($id);
+    $user->is_active = !$user->is_active; // Toggle active/deactive status
+    $user->save();
+
+    return response()->json(['message' => 'User status updated successfully!', 'is_active' => $user->is_active]);
+}
+
+public function destroy($id)
+{
+    $user = User::findOrFail($id);
+    $user->delete();
+
+    return response()->json(['message' => 'User deleted successfully!']);
+}
 
 
 }

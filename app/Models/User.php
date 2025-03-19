@@ -25,7 +25,8 @@ class User extends Authenticatable
         'id_proof',
          'address_proof', 
          'status',
-          'id_proof_reupload', 'address_proof_reupload'
+          'id_proof_reupload', 'address_proof_reupload',
+          'is_active',
     ];
 
     /**

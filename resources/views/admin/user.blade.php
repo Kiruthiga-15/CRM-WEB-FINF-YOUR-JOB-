@@ -84,15 +84,29 @@
                             </span>
                         </td>
                         <td class="border p-2 text-center flex flex-col md:flex-row gap-2 justify-center">
- <button class="edit-user bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-    data-user-id="{{ $user->id }}"
-    data-user-name="{{ $user->name }}"
-    data-user-email="{{ $user->email }}"
-    data-id-proof="{{ asset('storage/' . $user->id_proof) }}"
-    data-address-proof="{{ asset('storage/' . $user->address_proof) }}">
-    Edit
-</button>
+    <button class="edit-user bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+        data-user-id="{{ $user->id }}"
+        data-user-name="{{ $user->name }}"
+        data-user-email="{{ $user->email }}"
+        data-id-proof="{{ asset('storage/' . $user->id_proof) }}"
+        data-address-proof="{{ asset('storage/' . $user->address_proof) }}">
+        Edit
+    </button>
+
+    <!-- Deactivate Button -->
+    <button class="deactivate-user bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+        data-user-id="{{ $user->id }}"
+        data-is-active="{{ $user->is_active }}">
+        {{ $user->is_active ? 'Deactivate' : 'Activate' }}
+    </button>
+
+    <!-- Delete Button -->
+    <button class="delete-user bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+        data-user-id="{{ $user->id }}">
+        Delete
+    </button>
 </td>
+
                     </tr>
                     @endforeach
                 </tbody>
@@ -257,6 +271,57 @@ $(document).ready(function() {
         updateProofStatus('address_proof', 'rejected');
     });
 });
+
+//delete and deactivate 
+$(document).ready(function () {
+    $('.deactivate-user').click(function () {
+        let userId = $(this).data('user-id');
+        let button = $(this);
+
+        $.ajax({
+            url: "/users/" + userId + "/deactivate",
+            type: "POST",
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                alert(response.message);
+
+                if (response.is_active) {
+                    button.text("Deactivate").removeClass("bg-green-500").addClass("bg-yellow-500");
+                } else {
+                    button.text("Activate").removeClass("bg-yellow-500").addClass("bg-green-500");
+                }
+            },
+            error: function () {
+                alert("Error updating user status. Try again.");
+            }
+        });
+    });
+
+    $('.delete-user').click(function () {
+        let userId = $(this).data('user-id');
+
+        if (confirm("Are you sure you want to delete this user?")) {
+            $.ajax({
+                url: "/users/" + userId,
+                type: "DELETE",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    alert(response.message);
+                    location.reload();
+                },
+                error: function () {
+                    alert("Error deleting user. Try again.");
+                }
+            });
+        }
+    });
+});
+
+
     </script>
 </body>
 </html>

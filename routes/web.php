@@ -108,3 +108,10 @@ Route::post('/users/update-proof-status', [UserController::class, 'updateProofSt
 Route::get('/user/login', [UserAuthController::class, 'showLoginForm'])->name('user.login');
 Route::post('/user/login', [UserAuthController::class, 'login'])->name('userlogin.store'); 
 Route::post('/user/logout', [UserAuthController::class, 'logout'])->name('user.logout');
+
+//delete and deactivate
+// Route::post('/users/deactivate', [UserController::class, 'deactivate'])->name('users.deactivate');
+// Route::post('/users/delete', [UserController::class, 'delete'])->name('users.delete');
+
+Route::post('/users/{id}/deactivate', [UserController::class, 'deactivate'])->name('users.deactivate');
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
