@@ -38,7 +38,7 @@ class UserDetailsController extends Controller
         'proof_status' => 'Waiting for Approval',
     ]);
 
-    return redirect()->route('admin.users')->with('success', 'User registered successfully!');
+    return redirect()->route('user.login')->with('success', 'User registered successfully!');
 }
 
     public function index()

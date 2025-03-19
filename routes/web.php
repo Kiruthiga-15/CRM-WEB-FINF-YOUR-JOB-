@@ -7,7 +7,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UserDetailsController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\UserLoginController;
+use App\Http\Controllers\UserAuthController;
 
 // Welcome Page
 Route::get('/', function () {
@@ -75,5 +76,35 @@ Route::post('/user/register', [UserDetailsController::class, 'store'])->name('us
 Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
 Route::post('/admin/users/store', [UserController::class, 'store'])->name('admin.users.store');
 
+//register after go to login page for user
+Route::get('/user/login', function () {
+    return view('user.userlogin');
+})->name('user.login');
+
+// Show login form
+Route::get('/user/login', [UserLoginController::class, 'showLoginForm'])->name('userlogin');
+
+// Handle login
+Route::post('/user/login', [UserLoginController::class, 'store'])->name('userlogin.store');
+
+// User Dashboard (After login)
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth')->name('dashboard');
+
+// Logout
+Route::post('/logout', [UserLoginController::class, 'logout'])->name('logout');
+
+// Reupload Proof
+Route::post('/users/reupload-proof', [UserController::class, 'reuploadProof'])->name('users.reupload-proof');
+
+// Update Proof Status (For Admin)
+Route::post('/users/update-proof-status', [UserController::class, 'updateProofStatus'])->name('users.update-proof-status');
 
 
+//userlogin in admin page
+
+// User Login Routes
+Route::get('/user/login', [UserAuthController::class, 'showLoginForm'])->name('user.login');
+Route::post('/user/login', [UserAuthController::class, 'login'])->name('userlogin.store'); 
+Route::post('/user/logout', [UserAuthController::class, 'logout'])->name('user.logout');

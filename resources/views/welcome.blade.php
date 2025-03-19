@@ -64,16 +64,28 @@
             Join thousands of verified professionals & employers.
         </p>
 
+        <!-- Buttons -->
         <div class="mt-8 w-full flex flex-col sm:flex-row items-center justify-center gap-6"> 
+            
+            <!-- User Register Button -->
             <a href="{{ route('user.register') }}" 
                 class="w-full sm:w-auto bg-primary text-black font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-full shadow-lg text-lg hover:bg-yellow-500 transition duration-300 text-center">
                 Register as User
             </a>
 
+            <!-- User Login Button -->
+        <a href="{{ route('user.login') }}" 
+    class="w-full sm:w-auto bg-green-600 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-full shadow-lg text-lg hover:bg-green-700 transition duration-300 text-center">
+    User Login
+</a>
+
+
+            <!-- Admin Login Button -->
             <a href="{{ route('admin.login') }}" 
                 class="w-full sm:w-auto bg-secondary text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-full shadow-lg text-lg hover:bg-blue-700 transition duration-300 text-center">
                 Admin Login
             </a>
+
         </div>
     </section>
 

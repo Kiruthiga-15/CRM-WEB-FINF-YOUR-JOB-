@@ -5,11 +5,49 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
 //popup
-    public function updateProofStatus(Request $request) {
+   // Handle proof reupload
+    public function reuploadProof(Request $request)
+    {
+        // Ensure user is authenticated
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('user.login')->with('error', 'User not authenticated.');
+        }
+
+        // Validate the uploaded files
+        $request->validate([
+            'id_proof' => 'required|mimes:jpg,png,pdf|max:2048',
+            'address_proof' => 'required|mimes:jpg,png,pdf|max:2048',
+        ]);
+
+        // Store ID Proof
+        if ($request->hasFile('id_proof')) {
+            $idProofPath = $request->file('id_proof')->store('proofs', 'public');
+            $user->id_proof = $idProofPath;
+            $user->id_proof_status = 'Waiting for Approval'; // Reset status
+        }
+
+        // Store Address Proof
+        if ($request->hasFile('address_proof')) {
+            $addressProofPath = $request->file('address_proof')->store('proofs', 'public');
+            $user->address_proof = $addressProofPath;
+            $user->address_proof_status = 'Waiting for Approval'; // Reset status
+        }
+
+        // Save the updated user information
+        $user->save();
+
+        return redirect()->route('dashboard')->with('success', 'Proofs reuploaded successfully.');
+    }
+   //update proof status 
+public function updateProofStatus(Request $request) {
     $user = User::find($request->user_id);
     if (!$user) {
         return response()->json(['message' => 'User not found'], 404);
@@ -94,31 +132,31 @@ class UserController extends Controller
     }
 
 //reupload
-public function reuploadProof(Request $request)
-{
-    $request->validate([
-        'id_proof_reupload' => 'nullable|mimes:jpg,png,pdf|max:2048',
-        'address_proof_reupload' => 'nullable|mimes:jpg,png,pdf|max:2048',
-    ]);
+// public function reuploadProof(Request $request)
+// {
+//     $request->validate([
+//         'id_proof_reupload' => 'nullable|mimes:jpg,png,pdf|max:2048',
+//         'address_proof_reupload' => 'nullable|mimes:jpg,png,pdf|max:2048',
+//     ]);
 
-    $user = User::find($request->user_id);
+//     $user = User::find($request->user_id);
 
-    if ($request->hasFile('id_proof_reupload')) {
-        $idProofPath = $request->file('id_proof_reupload')->store('proofs', 'public');
-        $user->id_proof = $idProofPath;
-        $user->id_proof_status = 'pending'; // Reset status
-    }
+//     if ($request->hasFile('id_proof_reupload')) {
+//         $idProofPath = $request->file('id_proof_reupload')->store('proofs', 'public');
+//         $user->id_proof = $idProofPath;
+//         $user->id_proof_status = 'pending'; // Reset status
+//     }
 
-    if ($request->hasFile('address_proof_reupload')) {
-        $addressProofPath = $request->file('address_proof_reupload')->store('proofs', 'public');
-        $user->address_proof = $addressProofPath;
-        $user->address_proof_status = 'pending'; // Reset status
-    }
+//     if ($request->hasFile('address_proof_reupload')) {
+//         $addressProofPath = $request->file('address_proof_reupload')->store('proofs', 'public');
+//         $user->address_proof = $addressProofPath;
+//         $user->address_proof_status = 'pending'; // Reset status
+//     }
 
-    $user->save();
+//     $user->save();
 
-    return redirect()->back()->with('success', 'Proofs reuploaded successfully and are under review.');
-}
+//     return redirect()->back()->with('success', 'Proofs reuploaded successfully and are under review.');
+// }
 //new
  public function index()
     {

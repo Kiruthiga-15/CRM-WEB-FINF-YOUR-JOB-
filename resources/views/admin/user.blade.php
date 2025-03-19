@@ -162,6 +162,9 @@ $(document).ready(function() {
         $('#idProofImage').attr('src', idProof);
         $('#addressProofImage').attr('src', addressProof);
         $('#proofModal').removeClass('hidden');
+              // Ensure Reject buttons are visible when opening modal
+        $('#rejectIdProof').show();
+        $('#rejectAddressProof').show();
     });
 
     $('#closeModal').click(function() {
@@ -191,6 +194,10 @@ $(document).ready(function() {
                 idProofStatusElement.text(status.charAt(0).toUpperCase() + status.slice(1)); // Capitalize first letter
                 idProofStatusElement.removeClass('bg-yellow-500 bg-green-500 bg-red-500');
                 idProofStatusElement.addClass(status === 'approved' ? 'bg-green-500' : 'bg-red-500');
+                   // Hide Reject button when Approved
+                    if (status === 'approved') {
+                        $('#rejectIdProof').hide();
+                    }
             }
             
             if (proofType === "address_proof") {
@@ -198,6 +205,10 @@ $(document).ready(function() {
                 addressProofStatusElement.text(status.charAt(0).toUpperCase() + status.slice(1)); // Capitalize first letter
                 addressProofStatusElement.removeClass('bg-yellow-500 bg-green-500 bg-red-500');
                 addressProofStatusElement.addClass(status === 'approved' ? 'bg-green-500' : 'bg-red-500');
+                   // Hide Reject button when Approved
+                    if (status === 'approved') {
+                        $('#rejectAddressProof').hide();
+                    }
             }
                // Check if both proofs are approved, then update overall status
                 updateOverallStatus(userId);
