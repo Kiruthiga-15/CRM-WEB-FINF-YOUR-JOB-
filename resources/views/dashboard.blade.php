@@ -39,12 +39,12 @@
         </div>
 
         <!-- Logout Button -->
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700">
-                Logout
-            </button>
-        </form>
+      <form action="{{ route('logout') }}" method="POST">
+    @csrf
+    <button type="submit" class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700">
+        Logout
+    </button>
+</form>
     </div>
 
 </body>

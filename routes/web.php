@@ -86,6 +86,13 @@ Route::get('/user/login', [UserLoginController::class, 'showLoginForm'])->name('
 
 // Handle login
 Route::post('/user/login', [UserLoginController::class, 'store'])->name('userlogin.store');
+//user logout 
+Route::post('/logout', [UserLoginController::class, 'logout'])->name('logout');
+Route::get('/userlogin', function () {
+    return view('user.userlogin');  // Ensure the correct path
+})->name('userlogin');
+
+
 
 // User Dashboard (After login)
 Route::get('/dashboard', function () {

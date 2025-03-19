@@ -33,5 +33,9 @@ class UserLoginController extends Controller
     {
         Auth::logout();
         return redirect()->route('userlogin')->with('success', 'Logged out successfully!');
+         $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    
+    return redirect()->route('userlogin'); // Redirect to login page after logout
     }
 }
