@@ -111,8 +111,8 @@ public function updateProofStatus(Request $request) {
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|string|max:20',
             'password' => 'required|string|min:6',
-            'id_proof' => 'required|mimes:jpg,png,pdf|max:2048',
-            'address_proof' => 'required|mimes:jpg,png,pdf|max:2048',
+          'id_proof' => 'required|file|mimes:jpg,png,pdf|max:2048',
+        'address_proof' => 'required|file|mimes:jpg,png,pdf|max:2048',
         ]);
 
         $idProofPath = $request->file('id_proof')->store('proofs', 'public');
@@ -164,25 +164,7 @@ public function updateProofStatus(Request $request) {
         $users = User::latest()->get();
         return view('admin.user', compact('users'));
     }
-//delete and deactivate 
-// public function deactivate(Request $request) {
-//     $user = User::find($request->user_id);
-//     if ($user) {
-//         $user->status = 'deactivated';
-//         $user->save();
-//         return response()->json(['message' => 'User deactivated successfully.']);
-//     }
-//     return response()->json(['message' => 'User not found.'], 404);
-// }
-
-// public function delete(Request $request) {
-//     $user = User::find($request->user_id);
-//     if ($user) {
-//         $user->delete();
-//         return response()->json(['message' => 'User deleted successfully.']);
-//     }
-//     return response()->json(['message' => 'User not found.'], 404);
-// }
+//delete and deactive 
 public function deactivate($id)
 {
     $user = User::findOrFail($id);
@@ -199,6 +181,5 @@ public function destroy($id)
 
     return response()->json(['message' => 'User deleted successfully!']);
 }
-
 
 }
